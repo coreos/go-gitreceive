@@ -71,7 +71,7 @@ func addGitUser(homeDirectory, gitUsername string) {
 		os.Exit(1)
 	}
 
-	sshKeysFile := fmt.Sprintf("%s/authorized_keys", homeDirectory)
+	sshKeysFile := fmt.Sprintf("%s/.ssh/authorized_keys", homeDirectory)
 	addSshKeysFile := exec.Command("touch", sshKeysFile)
 	if _, _, err := runCommandWithOutput(addSshKeysFile); err != nil {
 		fmt.Printf("failed to touch file\n")
