@@ -143,7 +143,7 @@ func uploadKey(homeDirectory, gitreceivePath, username string) {
 	}
 	fingerprint := splitFingerprint[1]
 
-	keyPrefixTemplate := `command=%s run %s %s,no-agent-forwarding,no-pty,no-user-rc,no-X11-forwarding,no-port-forwarding`
+	keyPrefixTemplate := `command="%s run %s %s",no-agent-forwarding,no-pty,no-user-rc,no-X11-forwarding,no-port-forwarding`
 	keyPrefix := fmt.Sprintf(keyPrefixTemplate, gitreceivePath, username, fingerprint)
 	authorizedKeyEntry := fmt.Sprintf("%s %s", keyPrefix, key)
 
