@@ -103,7 +103,7 @@ func uploadKey(homeDirectory, gitreceivePath, username string) {
 		os.Exit(1)
 	}
 
-	tmpFile, err := os.OpenFile(tmpFilename, os.O_RDWR|os.O_CREATE, 770)
+	tmpFile, err := os.OpenFile(tmpFilename, os.O_RDWR|os.O_CREATE, 0770)
 	if err != nil {
 		fmt.Printf("failed to open temporary file %s\n", tmpFilename)
 		os.Exit(1)
@@ -135,7 +135,7 @@ func uploadKey(homeDirectory, gitreceivePath, username string) {
 	}
 
 	authorizedKeysFilename := fmt.Sprintf("%s/.ssh/authorized_keys", homeDirectory)
-	authorizedKeys, err := os.OpenFile(authorizedKeysFilename, os.O_CREATE|os.O_RDWR|os.O_APPEND, 600)
+	authorizedKeys, err := os.OpenFile(authorizedKeysFilename, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
 	if err != nil {
 		fmt.Printf("failed to open authorized_keys %s\n", authorizedKeysFilename)
 		os.Exit(1)
@@ -179,7 +179,7 @@ func run(gitHome, receiveUser, receiveFingerprint, gitreceivePath string) {
 	repoPath := fmt.Sprintf("%s/%s", gitHome, repo)
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
-		if err := os.Mkdir(repoPath, 770); err != nil {
+		if err := os.Mkdir(repoPath, 0770); err != nil {
 			fmt.Printf("failed to create repo directory\n")
 			os.Exit(1)
 		}
@@ -192,7 +192,7 @@ func run(gitHome, receiveUser, receiveFingerprint, gitreceivePath string) {
 	}
 
 	prereceiveHookPath := fmt.Sprintf("%s/hooks/pre-receive", repoPath)
-	prereceiveHook, err := os.OpenFile(prereceiveHookPath, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 770)
+	prereceiveHook, err := os.OpenFile(prereceiveHookPath, os.O_RDWR|os.O_TRUNC|os.O_CREATE, 0770)
 	if err != nil {
 		fmt.Printf("failed to open repo pre-receive hook script\n")
 		os.Exit(1)
