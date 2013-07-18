@@ -71,12 +71,13 @@ func addGitUser(homeDirectory, gitUsername string) {
 		os.Exit(1)
 	}
 
-	sshKeysFile := fmt.Sprintf("%s/.ssh/authorized_keys", homeDirectory)
-	addSshKeysFile := exec.Command("touch", sshKeysFile)
-	if _, _, err := runCommandWithOutput(addSshKeysFile); err != nil {
-		fmt.Printf("failed to touch file\n")
+	authorizedKeysFilename := fmt.Sprintf("%s/.ssh/authorized_keys", homeDirectory)
+	authorizedKeys, err := os.OpenFile(authorizedKeysFilename, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
+	if err != nil {
+		fmt.Printf("failed to open authorized_keys %s\n", authorizedKeysFilename)
 		os.Exit(1)
 	}
+	authorizedKeys.Close()
 
 	changeOWnership := exec.Command("chown", "-R", gitUsername, homeDirectory)
 	if _, _, err := runCommandWithOutput(changeOWnership); err != nil {
