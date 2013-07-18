@@ -79,7 +79,8 @@ func addGitUser(homeDirectory, gitUsername string) {
 	}
 	authorizedKeys.Close()
 
-	changeOWnership := exec.Command("chown", "-R", gitUsername, homeDirectory)
+	owner := fmt.Sprintf("%s:%s", gitUsername, gitUsername)
+	changeOWnership := exec.Command("chown", "-R", owner, homeDirectory)
 	if _, _, err := runCommandWithOutput(changeOWnership); err != nil {
 		fmt.Printf("failed to change ownership\n")
 		os.Exit(1)
