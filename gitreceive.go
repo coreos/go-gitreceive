@@ -171,10 +171,13 @@ func run(gitHome, receiveUser, receiveFingerprint, gitreceivePath string) {
 		os.Exit(1)
 	}
 
-	repoRaw := splitOriginalSSHCommand[1]
 	for key, value := range splitOriginalSSHCommand {
 		splitOriginalSSHCommand[key] = strings.Trim(value, "'")
 	}
+
+	//trim preceding "/" in repo name (needed when use remote with ssh:// syntax)
+	splitOriginalSSHCommand[1] = strings.TrimLeft(splitOriginalSSHCommand[1], "/")
+	repoRaw := splitOriginalSSHCommand[1]
 
 	repo := strings.Trim(repoRaw, "'")
 
